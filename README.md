@@ -20,15 +20,15 @@ Uses the NLTK word list as the default dictionary. Outputs all possible solution
 ## Examples
 
 ### Example 1 (Constrained search with NLTK words)
-> `lb.py -t ihy -l aws -b ern -r ftl -m 4 -x 6 -d 3`
+> `lb.py -t ihy -l aws -b ern -r ftl -m 6 -x 6 -d 3`
 ```
 1. ['afaint', 'theist', 'twirly']
-2. ['fains', 'syrtis', 'shewel']
-3. ['faint', 'theist', 'twirly']
+2. ['atwirl', 'lanseh', 'hafnyl']
+3. ['faints', 'shewel', 'lyrate']
 ...
-41. ['wish', 'hearth', 'hafnyl']
-42. ['wisha', 'anarya', 'afetal']
-43. ['first', 'theat', 'twinly']
+69. ['wriest', 'tarish', 'hafnyl']
+70. ['wriest', 'teaish', 'hafnyl']
+71. ['writhe', 'elysia', 'afaint']
 ```
 ![Example solution](sample_solution1.png)
 
