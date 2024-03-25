@@ -31,7 +31,7 @@ def parse_arguments():
     parser.add_argument('-t', '--top', type=str, required=True,
                         help='Letters on the top side of the box')
     parser.add_argument('-l', '--left', type=str, required=True,
-                        help='Letter on the left side of the box')
+                        help='Letters on the left side of the box')
     parser.add_argument('-b', '--bottom', type=str, required=True,
                         help='Letters on the bottom side of the box')
     parser.add_argument('-r', '--right', type=str, required=True,
@@ -50,9 +50,9 @@ def get_dictionary():
         nltk_words = nltk.corpus.words.words()
     except LookupError:
         nltk.download('words')
-        logging.info("Downloading NLTK words corpus")
+        logging.info("Downloading NLTK corpus")
         nltk_words = nltk.corpus.words.words()
-        logging.info("NLTK words corpus downloaded with %s words", len(nltk_words))
+        logging.info("NLTK corpus downloaded with %s words", len(nltk_words))
     return nltk_words
 
 
