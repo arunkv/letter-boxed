@@ -30,7 +30,7 @@ Uses the NLTK word list as the default dictionary. Outputs all possible solution
 42. ['wisha', 'anarya', 'afetal']
 43. ['first', 'theat', 'twinly']
 ```
-![Example solution](sample_solution.png)
+![Example solution](sample_solution1.png)
 
 ### Example 2 (Custom dictionary)
 
@@ -41,6 +41,7 @@ Uses the NLTK word list as the default dictionary. Outputs all possible solution
 3. ['kokra', 'adjectival']
 4. ['okra', 'adjectival']
 ```
+![Example solution](sample_solution2.png)
 
 ## License
 Licensed under the Apache License Version 2.0.
