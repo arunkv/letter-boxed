@@ -24,7 +24,7 @@ logging.basicConfig(filename='lb.log', filemode='a', level=logging.INFO,
 MIN_WORD_LENGTH = 4
 MAX_WORD_LENGTH = float('inf')
 SEARCH_DEPTH = 4
-all_solutions = []
+ALL_SOLUTIONS = []
 
 
 def parse_arguments():
@@ -99,10 +99,10 @@ def solve(top, left, bottom, right, dictionary):
     search_words = trim_dictionary(top, left, bottom, right, dictionary)
     recursive_solve(all_letters, search_words, search_words, [])
     end_time = time.time()
-    if len(all_solutions) == 0:
+    if len(ALL_SOLUTIONS) == 0:
         print("No solutions found")
     else:
-        for i, solution in enumerate(all_solutions, 1):
+        for i, solution in enumerate(ALL_SOLUTIONS, 1):
             print("{}. {}".format(i, solution))
     print("Solution search took {:.3f} seconds".format(end_time - start_time))
     logging.info("Solution search took %s seconds", end_time - start_time)
@@ -117,7 +117,7 @@ def recursive_solve(all_letters, all_search_words, search_words, solution=None, 
             used_letters = set(list(''.join(potential_solution)))
             if all_letters == used_letters:
                 logging.info("Found solution: %s", potential_solution)
-                all_solutions.append(potential_solution)
+                ALL_SOLUTIONS.append(potential_solution)
             else:
                 last_letter = word[-1]
                 next_search_words = [x for x in all_search_words if x[0] == last_letter]
