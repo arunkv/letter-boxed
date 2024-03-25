@@ -105,7 +105,7 @@ def solve(top, left, bottom, right, dictionary):
     start_time = time.time()
     all_letters = set(top + left + bottom + right)
     search_words = trim_dictionary(top, left, bottom, right, dictionary)
-    recursive_solve(all_letters, search_words, [])
+    recursive_solve(all_letters, search_words, search_words, [])
     end_time = time.time()
     if len(all_solutions) == 0:
         print("No solutions found")
@@ -117,7 +117,7 @@ def solve(top, left, bottom, right, dictionary):
 
 
 # Recursive function to solve the puzzle using a search space and a prefix solution
-def recursive_solve(all_letters, search_words, solution=None, depth=0):
+def recursive_solve(all_letters, all_search_words, search_words, solution=None, depth=0):
     solution = solution or []
     if depth != SEARCH_DEPTH:
         for word in search_words:
@@ -128,8 +128,8 @@ def recursive_solve(all_letters, search_words, solution=None, depth=0):
                 all_solutions.append(potential_solution)
             else:
                 last_letter = word[-1]
-                next_search_words = [x for x in search_words if x[0] == last_letter]
-                recursive_solve(all_letters, next_search_words, potential_solution, depth + 1)
+                next_search_words = [x for x in all_search_words if x[0] == last_letter]
+                recursive_solve(all_letters, all_search_words, next_search_words, potential_solution, depth + 1)
 
 
 if __name__ == '__main__':
