@@ -12,29 +12,43 @@ import lb
 from lb import is_word_valid, recursive_solve, trim_dictionary
 
 
+class DotDict(dict):
+    def __getattr__(self, attr):
+        return self.get(attr)
+
+    def __setattr__(self, key, value):
+        self[key] = value
+
+    def __delattr__(self, item):
+        del self[item]
+
+
+
 class TestLetterBoxedSolver(unittest.TestCase):
     def setUp(self):
-        self.top = 'abcd'
-        self.left = 'efgh'
-        self.bottom = 'ijkl'
-        self.right = 'mnop'
+        self.args = DotDict()
+        self.args.top = 'abcd'
+        self.args.left = 'efgh'
+        self.args.bottom = 'ijkl'
+        self.args.right = 'mnop'
+        self.args.min = 2
+        self.args.max = 2
         self.dictionary = ['ab', 'cd', 'ef', 'gh', 'ij', 'kl', 'mn', 'op']
 
     def test_is_word_valid(self):
-        lb.MIN_WORD_LENGTH = 2
-        self.assertFalse(is_word_valid('ab', self.left, self.bottom, self.right, self.top))
-        self.assertFalse(is_word_valid('zz', self.left, self.bottom, self.right, self.top))
-        self.assertTrue(is_word_valid('ae', self.left, self.bottom, self.right, self.top))
+        self.assertFalse(is_word_valid('ab', self.args))
+        self.assertFalse(is_word_valid('zz', self.args))
+        self.assertTrue(is_word_valid('ae', self.args))
 
     def test_trim_dictionary(self):
-        trimmed = trim_dictionary(self.top, self.left, self.bottom, self.right, self.dictionary)
+        trimmed = trim_dictionary(self.dictionary, self.args)
         self.assertEqual(trimmed, [])
 
     def test_recursive_solve(self):
-        all_letters = set(self.top + self.left + self.bottom + self.right)
-        search_words = trim_dictionary(self.top, self.left, self.bottom, self.right, self.dictionary)
-        recursive_solve(all_letters, search_words, search_words, [])
-        self.assertEqual(len(lb.ALL_SOLUTIONS), 0)
+        all_letters = set(self.args.top + self.args.left + self.args.bottom + self.args.right)
+        search_words = trim_dictionary(self.dictionary, self.args)
+        all_solutions = recursive_solve(self.args, all_letters, search_words, search_words, [])
+        self.assertEqual(len(all_solutions), 0)
 
 
 if __name__ == '__main__':
