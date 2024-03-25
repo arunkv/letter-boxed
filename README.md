@@ -3,6 +3,8 @@
 This is a solver for the New York Times [Letter Boxed puzzle](https://www.nytimes.com/puzzles/letter-boxed). 
 Uses the NLTK word list as the default dictionary. Outputs all possible solutions.
 
+_Note_: Not all NLTK solutions may work in the actual puzzle since the dictionary used by NYTimes is smaller.
+
 ## Requirements
 
 * `pip install -r requirements.txt`
