@@ -13,6 +13,7 @@
 
 import argparse
 import logging
+import time
 
 import nltk
 
@@ -101,29 +102,34 @@ def is_word_valid(word, left, bottom, right, top):
 
 # Solve the puzzle using the given letters and dictionary
 def solve(top, left, bottom, right, dictionary):
+    start_time = time.time()
     all_letters = set(top + left + bottom + right)
     search_words = trim_dictionary(top, left, bottom, right, dictionary)
-
     recursive_solve(all_letters, search_words, [])
+    end_time = time.time()
+    if len(all_solutions) == 0:
+        print("No solutions found")
+    else:
+        for i, solution in enumerate(all_solutions, 1):
+            print("{}. {}".format(i, solution))
+    print("Solution search took {:.3f} seconds".format(end_time - start_time))
+    logging.info("Solution search took %s seconds", end_time - start_time)
 
 
 # Recursive function to solve the puzzle using a search space and a prefix solution
 def recursive_solve(all_letters, search_words, solution=None, depth=0):
-    if solution is None:
-        solution = []
-    if depth == SEARCH_DEPTH:
-        return
-    for word in search_words:
-        potential_solution = solution + [word]
-        used_letters = set(list(''.join(potential_solution)))
-        if all_letters == used_letters:
-            logging.info("Found solution: %s", potential_solution)
-            all_solutions.append(potential_solution)
-            print("{}. {}".format(len(all_solutions), potential_solution))
-        else:
-            last_letter = word[-1]
-            next_search_words = [x for x in search_words if x[0] == last_letter]
-            recursive_solve(all_letters, next_search_words, potential_solution, depth + 1)
+    solution = solution or []
+    if depth != SEARCH_DEPTH:
+        for word in search_words:
+            potential_solution = solution + [word]
+            used_letters = set(list(''.join(potential_solution)))
+            if all_letters == used_letters:
+                logging.info("Found solution: %s", potential_solution)
+                all_solutions.append(potential_solution)
+            else:
+                last_letter = word[-1]
+                next_search_words = [x for x in search_words if x[0] == last_letter]
+                recursive_solve(all_letters, next_search_words, potential_solution, depth + 1)
 
 
 if __name__ == '__main__':
@@ -144,5 +150,3 @@ if __name__ == '__main__':
     logging.info("Search parameters: min=%s, max=%s, depth=%s", MIN_WORD_LENGTH, MAX_WORD_LENGTH, SEARCH_DEPTH)
 
     solve(top_letters, left_letters, bottom_letters, right_letters, get_dictionary())
-    if len(all_solutions) == 0:
-        print("No solutions found")
