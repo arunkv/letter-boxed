@@ -67,20 +67,9 @@ def get_dictionary(dictionary):
         return nltk_words
 
 
+# Prune invalid words from the dictionary based on the letters on the sides of the box
 def trim_dictionary(top, left, bottom, right, dictionary):
-    # Initialize the trimmed dictionary
-    trimmed_dictionary = []
-
-    # For each word in the dictionary
-    for word in dictionary:
-        word = word.lower()
-
-        valid = is_word_valid(word, left, bottom, right, top)
-
-        if valid:
-            trimmed_dictionary.append(word)
-
-    # Return the trimmed dictionary
+    trimmed_dictionary = [word for word in dictionary if is_word_valid(word, left, bottom, right, top)]
     logging.info("Dictionary trimmed to %s words", len(trimmed_dictionary))
     return trimmed_dictionary
 
@@ -92,19 +81,11 @@ def is_word_valid(word, left, bottom, right, top):
         return False
 
     # Check if the word contains only the letters in the box without consecutive letters from the same side
+    sides = {'t': top, 'l': left, 'b': bottom, 'r': right}
     prev_set_name = None
     for letter in word:
-        if letter in top:
-            set_name = 't'
-        elif letter in left:
-            set_name = 'l'
-        elif letter in bottom:
-            set_name = 'b'
-        elif letter in right:
-            set_name = 'r'
-        else:
-            return False
-        if set_name == prev_set_name:
+        set_name = next((name for name, side in sides.items() if letter in side), None)
+        if set_name is None or set_name == prev_set_name:
             return False
         prev_set_name = set_name
 
