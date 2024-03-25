@@ -34,7 +34,7 @@ Uses the NLTK word list as the default dictionary. Outputs all possible solution
 
 ### Example 2 (Custom dictionary)
 
-❯ `./lb.py -t dki -l ero -b clv -r jta -m 4 -d 2 -D /usr/share/dict/words`
+❯ `lb.py -t dki -l ero -b clv -r jta -m 4 -d 2 -D /usr/share/dict/words`
 ```
 1. ['adjective', 'earcockle']
 2. ['adjective', 'earlock']
