@@ -13,6 +13,7 @@
 
 import argparse
 import logging
+import os
 import time
 
 import nltk
@@ -42,18 +43,28 @@ def parse_arguments():
                         help='Maximum word length in solution (default: no limit)')
     parser.add_argument('-d', '--depth', type=int,
                         help='Search depth (default: 4)')
+    parser.add_argument('-D', '--dict', type=str,
+                        help='Dictionary file (default: /usr/share/dict/words)')
     return parser.parse_args()
 
 
-def get_dictionary():
+def get_dictionary(dictionary):
     try:
-        nltk_words = nltk.corpus.words.words()
-    except LookupError:
-        nltk.download('words')
-        logging.info("Downloading NLTK corpus")
-        nltk_words = nltk.corpus.words.words()
-        logging.info("NLTK corpus downloaded with %s words", len(nltk_words))
-    return nltk_words
+        if os.path.isfile(dictionary):
+            logging.info("Using custom dictionary: %s", dictionary)
+            with open(dictionary) as f:
+                return [line.strip() for line in f]
+        else:
+            raise FileNotFoundError
+    except FileNotFoundError:
+        try:
+            nltk_words = nltk.corpus.words.words()
+        except LookupError:
+            nltk.download('words')
+            logging.info("Downloading NLTK corpus")
+            nltk_words = nltk.corpus.words.words()
+            logging.info("NLTK corpus downloaded with %s words", len(nltk_words))
+        return nltk_words
 
 
 def trim_dictionary(top, left, bottom, right, dictionary):
@@ -147,6 +158,8 @@ if __name__ == '__main__':
         MAX_WORD_LENGTH = args.max
     if args.depth:
         SEARCH_DEPTH = args.depth
-    logging.info("Search parameters: min=%s, max=%s, depth=%s", MIN_WORD_LENGTH, MAX_WORD_LENGTH, SEARCH_DEPTH)
+    selected_dict = args.dict or 'nltk'
+    logging.info("Search parameters: min=%s, max=%s, depth=%s, dict=%s",
+                 MIN_WORD_LENGTH, MAX_WORD_LENGTH, SEARCH_DEPTH, selected_dict)
 
-    solve(top_letters, left_letters, bottom_letters, right_letters, get_dictionary())
+    solve(top_letters, left_letters, bottom_letters, right_letters, get_dictionary(selected_dict))
