@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Black">
+    <option name="pathToExecutable" value="/opt/homebrew/anaconda3/bin/black" />
     <option name="sdkName" value="letter-boxed" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="letter-boxed" project-jdk-type="Python SDK" />
